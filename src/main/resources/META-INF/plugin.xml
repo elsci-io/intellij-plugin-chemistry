@@ -26,4 +26,10 @@
   <extensions defaultExtensionNs="com.intellij">
 
   </extensions>
+  <actions>
+    <action id="plugin.ShowMoleculeAction" class="plugin.ShowMoleculeAction" text="Show Molecule"
+            description="To show a drawn molecule defined by the selected text">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
+  </actions>
 </idea-plugin>
