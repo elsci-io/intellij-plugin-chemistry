@@ -24,6 +24,10 @@ dependencies {
         // Add necessary plugin dependencies for compilation here, example:
         // bundledPlugin("com.intellij.java")
     }
+
+    implementation("org.openscience.cdk:cdk-depict:2.11")
+
+    testImplementation("junit:junit:4.13.2")
 }
 
 intellijPlatform {
