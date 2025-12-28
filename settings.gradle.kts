@@ -1,1 +1,1 @@
-rootProject.name = "mol-jetbrains-plugin"
+rootProject.name = "mol-intellij-plugin"

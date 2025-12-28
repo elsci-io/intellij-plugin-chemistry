@@ -1,1 +1,1 @@
-# mol-jetbrains-plugin
+# mol-intellij-plugin
