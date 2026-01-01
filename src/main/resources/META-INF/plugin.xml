@@ -30,6 +30,7 @@
     <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Show Molecule"
             description="To show a drawn molecule defined by the selected text">
       <add-to-group group-id="ToolsMenu" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="control alt shift M"/>
     </action>
   </actions>
 </idea-plugin>

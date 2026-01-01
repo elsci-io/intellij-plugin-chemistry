@@ -6,6 +6,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.popup.JBPopup;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiLiteralValue;
+import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import plugin.chem.MoleculeParseException;
 import plugin.chem.MoleculeUtil;
@@ -21,10 +25,16 @@ public class ShowMoleculeAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         Editor editor = e.getData(CommonDataKeys.EDITOR);
-        if (editor != null) {
-            String mol = editor.getCaretModel().getPrimaryCaret().getSelectedText();
-            if (mol != null) {
-                mol = mol.replace("\"", "");
+        PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
+        if (editor != null && psiFile != null) {
+            /*if a string is selected together with double quotes, the caret may be placed after the string,
+              and, for example, point to a semicolon, that's why checking selection*/
+            int offset = editor.getSelectionModel().hasSelection()
+                    ? editor.getSelectionModel().getSelectionStart()
+                    : editor.getCaretModel().getOffset();
+            PsiElement element = psiFile.findElementAt(offset);
+            PsiLiteralValue literal = PsiTreeUtil.getParentOfType(element, PsiLiteralValue.class);
+            if (literal != null && literal.getValue() instanceof String mol) {
                 try {
                     String svg = MoleculeUtil.smilesToSvg(mol);
                     JBPopup popup = MoleculePopup.create(svg);
