@@ -1,4 +1,4 @@
-package plugin;
+package plugin.action;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -7,8 +7,8 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.popup.JBPopup;
 import org.jetbrains.annotations.NotNull;
-import plugin.chemistry.MoleculeParseException;
-import plugin.chemistry.MoleculeUtil;
+import plugin.chem.MoleculeParseException;
+import plugin.chem.MoleculeUtil;
 import plugin.ui.MoleculePopup;
 import plugin.ui.MoleculeRenderException;
 

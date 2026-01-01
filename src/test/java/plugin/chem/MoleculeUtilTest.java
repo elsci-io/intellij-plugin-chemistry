@@ -1,4 +1,4 @@
-package plugin.chemistry;
+package plugin.chem;
 
 import org.junit.Test;
 import org.openscience.cdk.exception.InvalidSmilesException;

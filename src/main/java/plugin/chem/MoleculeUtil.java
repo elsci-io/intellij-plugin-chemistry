@@ -1,4 +1,4 @@
-package plugin.chemistry;
+package plugin.chem;
 
 import org.openscience.cdk.depict.DepictionGenerator;
 import org.openscience.cdk.exception.CDKException;
