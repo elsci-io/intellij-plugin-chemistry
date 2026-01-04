@@ -1,1 +1,1 @@
-# mol-intellij-plugin
+# intellij-plugin-chemistry
