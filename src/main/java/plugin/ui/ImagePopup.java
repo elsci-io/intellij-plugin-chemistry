@@ -9,8 +9,8 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-public class MoleculePopup {
-    public static JBPopup create(Project project, String svg) throws MoleculeRenderException {
+public class ImagePopup {
+    public static JBPopup create(Project project, String svg) throws ImageRenderException {
         ScalableImagePanel panel = new ScalableImagePanel(image(svg));
         return JBPopupFactory.getInstance()
                 .createComponentPopupBuilder(panel, panel)
@@ -24,12 +24,12 @@ public class MoleculePopup {
                 .createPopup();
     }
 
-    private static Image image(String svg) throws MoleculeRenderException {
+    private static Image image(String svg) throws ImageRenderException {
         try {
             //todo: find another approach (without warnings)
             return SVGLoader.load(new ByteArrayInputStream(svg.getBytes()), 1.0f);
         } catch (IOException e) {
-            throw new MoleculeRenderException("Couldn’t render a molecule from the SVG string.", e);
+            throw new ImageRenderException("Couldn’t render an image from the SVG string.", e);
         }
     }
 }

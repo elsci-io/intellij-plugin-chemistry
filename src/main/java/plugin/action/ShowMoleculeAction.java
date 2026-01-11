@@ -13,8 +13,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 import plugin.chem.MoleculeParseException;
 import plugin.chem.MoleculeUtil;
-import plugin.ui.MoleculePopup;
-import plugin.ui.MoleculeRenderException;
+import plugin.ui.ImagePopup;
+import plugin.ui.ImageRenderException;
 
 public class ShowMoleculeAction extends AnAction {
     @Override
@@ -37,9 +37,9 @@ public class ShowMoleculeAction extends AnAction {
             if (literal != null && literal.getValue() instanceof String mol) {
                 try {
                     String svg = MoleculeUtil.smilesToSvg(mol);
-                    JBPopup popup = MoleculePopup.create(e.getProject(), svg);
+                    JBPopup popup = ImagePopup.create(e.getProject(), svg);
                     popup.showInBestPositionFor(editor);
-                } catch (MoleculeParseException | MoleculeRenderException exception) {
+                } catch (MoleculeParseException | ImageRenderException exception) {
                   //do nothing
                 }
             }
