@@ -37,7 +37,7 @@ public class ShowMoleculeAction extends AnAction {
             if (literal != null && literal.getValue() instanceof String mol) {
                 try {
                     String svg = MoleculeUtil.smilesToSvg(mol);
-                    JBPopup popup = MoleculePopup.create(svg);
+                    JBPopup popup = MoleculePopup.create(e.getProject(), svg);
                     popup.showInBestPositionFor(editor);
                 } catch (MoleculeParseException | MoleculeRenderException exception) {
                   //do nothing
