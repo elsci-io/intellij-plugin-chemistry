@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 class ScalableImagePanel extends JPanel {
-    /**To guarantee some space between the image and the popup border.*/
-    private static final int PADDING = 5;
-
     private final Image image;
 
     public ScalableImagePanel(Image image) {
@@ -41,9 +38,8 @@ class ScalableImagePanel extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int paddingTotal = PADDING * 2/*left&right or top&bottom*/;
-        int cw = getWidth() - paddingTotal;
-        int ch = getHeight() - paddingTotal;
+        int cw = getWidth();
+        int ch = getHeight();
         int iw = image.getWidth(this);
         int ih = image.getHeight(this);
 
@@ -52,8 +48,8 @@ class ScalableImagePanel extends JPanel {
         double scale = Math.min((double) cw / iw, (double) ch / ih);
         int w = (int) (iw * scale);
         int h = (int) (ih * scale);
-        int x = (cw - w) / 2 + PADDING;
-        int y = (ch - h) / 2 + PADDING;
+        int x = (cw - w) / 2;
+        int y = (ch - h) / 2;
 
         g2.drawImage(image, x, y, w, h, this);
     }

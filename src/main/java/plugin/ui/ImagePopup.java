@@ -9,6 +9,8 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import static plugin.config.Settings.POPUP_DIMS;
+
 public class ImagePopup {
     public static JBPopup create(Project project, String svg) throws ImageRenderException {
         ScalableImagePanel panel = new ScalableImagePanel(image(svg));
@@ -16,7 +18,7 @@ public class ImagePopup {
                 .createComponentPopupBuilder(panel, panel)
                 .setProject(project)
                 .setResizable(true)
-                .setMinSize(new Dimension(300, 300))
+                .setMinSize(new Dimension(POPUP_DIMS.width(), POPUP_DIMS.height()))
                 .setMovable(true)
                 .setFocusable(true)
                 .setRequestFocus(true)
