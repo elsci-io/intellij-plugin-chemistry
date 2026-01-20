@@ -1,4 +1,4 @@
-package plugin.chem;
+package io.elsci.intellijchemplugin.chem;
 
 import org.openscience.cdk.depict.DepictionGenerator;
 import org.openscience.cdk.exception.CDKException;
@@ -8,7 +8,7 @@ import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
 
 import static org.openscience.cdk.depict.Depiction.UNITS_PX;
-import static plugin.config.Settings.POPUP_DIMS;
+import static io.elsci.intellijchemplugin.config.Settings.POPUP_DIMS;
 
 public class MoleculeUtil {
     private static final int ZOOM_RATIO = POPUP_DIMS.width() / 100/*empirically found zoom ratio to have big enough scale for small molecules*/;

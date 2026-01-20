@@ -1,4 +1,4 @@
-package plugin.action;
+package io.elsci.intellijchemplugin.action;
 
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -11,10 +11,10 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiLiteralValue;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
-import plugin.chem.MoleculeParseException;
-import plugin.chem.MoleculeUtil;
-import plugin.ui.ImagePopup;
-import plugin.ui.ImageRenderException;
+import io.elsci.intellijchemplugin.chem.MoleculeParseException;
+import io.elsci.intellijchemplugin.chem.MoleculeUtil;
+import io.elsci.intellijchemplugin.ui.ImagePopup;
+import io.elsci.intellijchemplugin.ui.ImageRenderException;
 
 public class ShowMoleculeAction extends AnAction {
     @Override

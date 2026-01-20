@@ -29,7 +29,7 @@
     <group id="plugin.action.ChemistryToolsGroup" text="Chemistry" popup="true">
       <add-to-group group-id="ToolsMenu" anchor="last"/>
 
-      <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Depict molecule"
+      <action id="io.elsci.intellijchemplugin.action.ShowMoleculeAction" class="io.elsci.intellijchemplugin.action.ShowMoleculeAction" text="Depict molecule"
               description="See a picture of a molecule from the selected SMILES">
         <keyboard-shortcut keymap="$default" first-keystroke="alt shift D"/>
       </action>

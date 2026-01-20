@@ -1,4 +1,4 @@
-package plugin.ui;
+package io.elsci.intellijchemplugin.ui;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
@@ -9,7 +9,7 @@ import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import static plugin.config.Settings.POPUP_DIMS;
+import static io.elsci.intellijchemplugin.config.Settings.POPUP_DIMS;
 
 public class ImagePopup {
     public static JBPopup create(Project project, String svg) throws ImageRenderException {

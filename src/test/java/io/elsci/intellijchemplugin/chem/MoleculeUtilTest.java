@@ -1,4 +1,4 @@
-package plugin.chem;
+package io.elsci.intellijchemplugin.chem;
 
 import org.junit.Test;
 import org.openscience.cdk.exception.InvalidSmilesException;

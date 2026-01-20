@@ -1,4 +1,4 @@
-package plugin.ui;
+package io.elsci.intellijchemplugin.ui;
 
 import javax.swing.*;
 import java.awt.*;
