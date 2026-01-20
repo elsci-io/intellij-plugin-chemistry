@@ -26,23 +26,23 @@ public class ShowMoleculeAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent e) {
         Editor editor = e.getData(CommonDataKeys.EDITOR);
         PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
-        if (editor != null && psiFile != null) {
-            /*if a string is selected together with double quotes, the caret may be placed after the string,
-              and, for example, point to a semicolon, that's why checking selection*/
-            int offset = editor.getSelectionModel().hasSelection()
-                    ? editor.getSelectionModel().getSelectionStart()
-                    : editor.getCaretModel().getOffset();
-            PsiElement element = psiFile.findElementAt(offset);
-            PsiLiteralValue literal = PsiTreeUtil.getParentOfType(element, PsiLiteralValue.class);
-            if (literal != null && literal.getValue() instanceof String mol) {
-                try {
-                    String svg = MoleculeUtil.smilesToSvg(mol);
-                    JBPopup popup = ImagePopup.create(e.getProject(), svg);
-                    popup.showInBestPositionFor(editor);
-                } catch (MoleculeParseException | ImageRenderException exception) {
-                  //do nothing
-                }
-            }
+        if (editor == null || psiFile == null)
+            return;
+        /*if a string is selected together with double quotes, the caret may be placed after the string,
+          and, for example, point to a semicolon, that's why checking selection*/
+        int offset = editor.getSelectionModel().hasSelection()
+                ? editor.getSelectionModel().getSelectionStart()
+                : editor.getCaretModel().getOffset();
+        PsiElement element = psiFile.findElementAt(offset);
+        PsiLiteralValue literal = PsiTreeUtil.getParentOfType(element, PsiLiteralValue.class);
+        if (literal == null || !(literal.getValue() instanceof String struct))
+            return;
+        try {
+            String svg = MoleculeUtil.smilesToSvg(struct);
+            JBPopup popup = ImagePopup.create(e.getProject(), svg);
+            popup.showInBestPositionFor(editor);
+        } catch (MoleculeParseException | ImageRenderException exception) {
+            //do nothing
         }
     }
 
