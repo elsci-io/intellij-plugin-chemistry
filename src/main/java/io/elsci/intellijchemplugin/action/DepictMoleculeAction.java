@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class ShowMoleculeAction extends AnAction {
+public class DepictMoleculeAction extends AnAction {
     @Override
     public void update(@NotNull AnActionEvent e) {
         e.getPresentation().setEnabledAndVisible(e.getProject() != null);
