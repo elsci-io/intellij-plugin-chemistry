@@ -1,20 +1,19 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
   <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-  <id>io.elsci.chemistry</id>
+  <id>io.elsci.intellij-chemistry-plugin</id>
 
   <!-- Public plugin name should be written in Title Case.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
   <name>Chemistry</name>
 
   <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-  <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+  <vendor url="https://elsci.io">Elsci</vendor>
 
   <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
   <description><![CDATA[
-        Enter short description for your plugin here.<br>
-        <em>most HTML tags may be used</em>
+        Depict chemical structure right in the IDE. Currently only SMILES format is supported.
     ]]></description>
 
   <!-- Product and plugin compatibility requirements.
@@ -30,8 +29,8 @@
     <group id="plugin.action.ChemistryToolsGroup" text="Chemistry" popup="true">
       <add-to-group group-id="ToolsMenu" anchor="last"/>
 
-      <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Show Molecule"
-              description="To show a drawn molecule defined by the selected text">
+      <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Depict molecule"
+              description="See a picture of a molecule from the selected SMILES">
         <keyboard-shortcut keymap="$default" first-keystroke="alt shift M"/>
       </action>
     </group>
