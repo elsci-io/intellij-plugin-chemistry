@@ -1,11 +1,11 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
   <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-  <id>iuriivolobuev.intellij-plugin-chemistry</id>
+  <id>io.elsci.chemistry</id>
 
   <!-- Public plugin name should be written in Title Case.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
-  <name>intellij-plugin-chemistry</name>
+  <name>Chemistry</name>
 
   <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
   <vendor url="https://www.yourcompany.com">YourCompany</vendor>
@@ -27,10 +27,13 @@
 
   </extensions>
   <actions>
-    <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Show Molecule"
-            description="To show a drawn molecule defined by the selected text">
+    <group id="plugin.action.ChemistryToolsGroup" text="Chemistry" popup="true">
       <add-to-group group-id="ToolsMenu" anchor="last"/>
-      <keyboard-shortcut keymap="$default" first-keystroke="control alt shift M"/>
-    </action>
+
+      <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Show Molecule"
+              description="To show a drawn molecule defined by the selected text">
+        <keyboard-shortcut keymap="$default" first-keystroke="alt shift M"/>
+      </action>
+    </group>
   </actions>
 </idea-plugin>

@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.intellij.platform") version "2.7.1"
 }
 
-group = "iuriivolobuev"
+group = "io.elsci"
 version = "1.0-SNAPSHOT"
 
 repositories {
