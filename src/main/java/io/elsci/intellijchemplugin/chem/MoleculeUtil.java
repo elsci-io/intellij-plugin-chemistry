@@ -7,7 +7,8 @@ import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 import org.openscience.cdk.smiles.SmilesParser;
 
-import static org.openscience.cdk.depict.Depiction.UNITS_PX;
+import java.awt.*;
+
 import static io.elsci.intellijchemplugin.config.Settings.POPUP_DIMS;
 
 public class MoleculeUtil {
@@ -18,9 +19,9 @@ public class MoleculeUtil {
             .withZoom(ZOOM_RATIO * QUALITY_FACTOR)
             .withMargin(15);
 
-    public static String smilesToSvg(String smiles) throws MoleculeParseException {
+    public static Image smilesToImage(String smiles) throws MoleculeParseException {
         try {
-            return DEPICTION_GENERATOR.depict(smilesToMolecule(smiles)).toSvgStr(UNITS_PX);
+            return DEPICTION_GENERATOR.depict(smilesToMolecule(smiles)).toImg();
         } catch (CDKException e) {
             throw new MoleculeParseException("Couldn’t parse the SMILES string into a molecule.", e);
         }

@@ -10,11 +10,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiLiteralValue;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
 import io.elsci.intellijchemplugin.chem.MoleculeParseException;
 import io.elsci.intellijchemplugin.chem.MoleculeUtil;
 import io.elsci.intellijchemplugin.ui.ImagePopup;
-import io.elsci.intellijchemplugin.ui.ImageRenderException;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class ShowMoleculeAction extends AnAction {
     @Override
@@ -38,10 +39,10 @@ public class ShowMoleculeAction extends AnAction {
         if (literal == null || !(literal.getValue() instanceof String struct))
             return;
         try {
-            String svg = MoleculeUtil.smilesToSvg(struct);
-            JBPopup popup = ImagePopup.create(e.getProject(), svg);
+            Image image = MoleculeUtil.smilesToImage(struct);
+            JBPopup popup = ImagePopup.create(e.getProject(), image);
             popup.showInBestPositionFor(editor);
-        } catch (MoleculeParseException | ImageRenderException exception) {
+        } catch (MoleculeParseException exception) {
             //do nothing
         }
     }
