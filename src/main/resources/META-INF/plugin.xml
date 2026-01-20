@@ -31,7 +31,7 @@
 
       <action id="plugin.action.ShowMoleculeAction" class="plugin.action.ShowMoleculeAction" text="Depict molecule"
               description="See a picture of a molecule from the selected SMILES">
-        <keyboard-shortcut keymap="$default" first-keystroke="alt shift M"/>
+        <keyboard-shortcut keymap="$default" first-keystroke="alt shift D"/>
       </action>
     </group>
   </actions>
