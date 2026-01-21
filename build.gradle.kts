@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "io.elsci"
-version = "1.1-SNAPSHOT"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -53,6 +53,6 @@ tasks {
         password.set(providers.environmentVariable("PRIVATE_KEY_PASSWORD"))
     }
     publishPlugin {
-        token.set(System.getenv("JETBRAIN_TOKEN"))
+        token.set(System.getenv("JETBRAINS_TOKEN"))
     }
 }
