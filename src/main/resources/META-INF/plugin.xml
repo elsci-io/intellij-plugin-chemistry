@@ -13,7 +13,10 @@
   <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
        Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
   <description><![CDATA[
-        Depict chemical structure right in the IDE. Currently only SMILES format is supported.
+        Depict chemical structure right in the IDE. Currently only SMILES format is supported:
+        <ul>
+          <li><code>Alt+Shift+D</code> / <code>Option+Shift+D</code> - depict chemical structure. Only SMILES format is supported at the moment. The cursor must be inside a String field in the code.</li>
+        </ul>
     ]]></description>
 
   <!-- Product and plugin compatibility requirements.
