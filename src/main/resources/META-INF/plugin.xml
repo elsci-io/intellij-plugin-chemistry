@@ -15,7 +15,7 @@
   <description><![CDATA[
         Depict chemical structure right in the IDE. Currently only SMILES format is supported:
         <ul>
-          <li><code>Alt+Shift+D</code> / <code>Option+Shift+D</code> - depict chemical structure. Only SMILES format is supported at the moment. The cursor must be inside a String field in the code.</li>
+          <li><code>Alt+Shift+D</code> / <code>Option+Shift+D</code> - depict chemical structure. Only SMILES format is supported at the moment.</li>
         </ul>
     ]]></description>
 

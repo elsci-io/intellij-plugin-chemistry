@@ -5,7 +5,7 @@ A plugin to work with chemical structures for JetBrains IDEs: IntelliJ, PyCharm,
 
 Functionality:
 
-* `Alt+Shift+D` / `Option+Shift+D` - depict chemical structure. Only SMILES format is supported at the moment. The cursor must be inside a String field in the code.
+* `Alt+Shift+D` / `Option+Shift+D` - depict chemical structure. Only SMILES format is supported at the moment.
 
 # Project status
 

@@ -27,6 +27,7 @@ dependencies {
     implementation("org.openscience.cdk:cdk-depict:2.11")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.qala.datagen:qala-datagen:2.5.1")
 }
 
 intellijPlatform {

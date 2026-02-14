@@ -27,6 +27,14 @@ public class MoleculeUtil {
         }
     }
 
+    /**
+     * Attempts to find a possible SMILES in the given arbitrary string that surrounds the given position.
+     */
+    public static String smilesFromText(String value, int idx) {
+        //todo: will be implemented in the next step..
+        return value;
+    }
+
     static IAtomContainer smilesToMolecule(String smiles) throws InvalidSmilesException {
         return new SmilesParser(SilentChemObjectBuilder.getInstance()).parseSmiles(smiles);
     }
