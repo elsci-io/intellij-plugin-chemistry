@@ -31,11 +31,36 @@ public class MoleculeUtil {
      * Attempts to find a possible SMILES in the given arbitrary string that surrounds the given position.
      */
     public static String smilesFromText(String value, int idx) {
-        //todo: will be implemented in the next step..
-        return value;
+        if (idx > value.length()) idx = value.length();
+        if (idx < 0) idx = 0;
+
+        int fr = idx - 1, to = idx;
+        for (; fr >= 0                 ; fr--) if (!isValidSmileSymbol(value.charAt(fr))) break;
+        for (; to <= value.length() - 1; to++) if (!isValidSmileSymbol(value.charAt(to))) break;
+        return value.substring(fr + 1, to);
     }
 
     static IAtomContainer smilesToMolecule(String smiles) throws InvalidSmilesException {
         return new SmilesParser(SilentChemObjectBuilder.getInstance()).parseSmiles(smiles);
+    }
+
+    /**
+     * atoms: '[' & ']', lowercase and uppercase letters, digits, '+' & '-' for a positive & negative charges
+     * bonds: '.', '-', '=', '#', '$', ':', '/', '\'
+     * rings: '%'
+     * branching: '(' & ')'
+     * stereochemistry: '@'
+     */
+    private static boolean isValidSmileSymbol(char c) {
+        return between(c, 'A', 'Z') || between(c, 'a', 'z') || between(c, '0', '9')
+                || c == '[' || c == ']' || c == '+' || c == '-'
+                || c == '.' || c == '=' || c == '#' || c == '$' || c == ':' || c == '/' || c == '\\'
+                || c == '%'
+                || c == '(' || c == ')'
+                || c == '@';
+    }
+
+    private static boolean between(char c, char minInclusive, char maxInclusive) {
+        return c >= minInclusive && c <= maxInclusive;
     }
 }

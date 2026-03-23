@@ -31,6 +31,7 @@ class TextExtractor {
         int offsetFr = doc.getLineStartOffset(lineNum);
         int offsetTo = doc.getLineEndOffset(lineNum);
         String value = doc.getText(new TextRange(offsetFr, offsetTo));
-        return trimQuotesAndWhitespaces(value);
+        int idxInValue = offset - offsetFr;
+        return plainTextPostProcessor.apply(value, idxInValue);
     }
 }
