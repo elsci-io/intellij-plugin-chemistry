@@ -27,6 +27,9 @@
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
 
+    <fileEditorProvider
+            implementation="io.elsci.intellijchemplugin.ui.MoleculeFileEditorProvider"/>
+
   </extensions>
   <actions>
     <group id="plugin.action.ChemistryToolsGroup" text="Chemistry" popup="true">
