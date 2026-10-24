@@ -18,7 +18,7 @@ public class MoleculeFileListener implements VirtualFileListener {
         try {
             preview.updatePreview();
         } catch (Throwable t) {
-            t.printStackTrace();
+            // do nothing
         }
     }
 }

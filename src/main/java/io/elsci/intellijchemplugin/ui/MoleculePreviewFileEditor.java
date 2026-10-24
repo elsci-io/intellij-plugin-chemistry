@@ -14,6 +14,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JComponent;
 
+import org.openscience.cdk.depict.DepictionGenerator;
+import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.io.iterator.IteratingSDFReader;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
@@ -22,7 +24,7 @@ import java.beans.PropertyChangeListener;
 import java.nio.charset.StandardCharsets;
 
 import static io.elsci.intellijchemplugin.chem.MoleculeUtil.DEPICTION_GENERATOR_MOLV3000;
-import static io.elsci.intellijchemplugin.chem.MoleculeUtil.molvToMolecule;
+import static io.elsci.intellijchemplugin.chem.MoleculeUtil.molToMolecule;
 
 public class MoleculePreviewFileEditor implements FileEditor {
     private final VirtualFile file;
@@ -43,107 +45,142 @@ public class MoleculePreviewFileEditor implements FileEditor {
             StringBuilder svgs = new StringBuilder();
             int count = 0;
             if (file.getName().toLowerCase().endsWith(".sdf")) {
-                IteratingSDFReader reader = new IteratingSDFReader(new java.io.StringReader(content), SilentChemObjectBuilder.getInstance());
+                IteratingSDFReader reader = new IteratingSDFReader(file.getInputStream(), SilentChemObjectBuilder.getInstance());
                 while (reader.hasNext() && count < 1000) {
                     IAtomContainer molecule;
                     molecule = reader.next();
-                    String svg = DEPICTION_GENERATOR_MOLV3000.withAtomColors().depict(molecule).toSvgStr();
-                    int start = svg.indexOf("<svg");
-                    if (start >= 0) {
-                        svg = svg.substring(start);
-                    }
-                    svgs.append("<div class='molecule'>");
-                    svgs.append(svg);
-                    svgs.append("</div>");
+                    parseMol(DEPICTION_GENERATOR_MOLV3000, molecule, svgs);
                     count++;
                 }
-                reader.close();
-            } else {
-                IAtomContainer molecule = molvToMolecule(content);
-                String svg = DEPICTION_GENERATOR_MOLV3000.withAtomColors().depict(molecule).toSvgStr();
-                int start = svg.indexOf("<svg");
-                if (start >= 0) {
-                    svg = svg.substring(start);
-                }
-                svgs.append("<div class='molecule'>");
-                svgs.append(svg);
-                svgs.append("</div>");
+            } else if (file.toString().contains("V2000")) {
+                IAtomContainer molecule = molToMolecule(content);
+                parseMol(DEPICTION_GENERATOR_MOLV3000, molecule, svgs);
+                count++;
             }
-            String html = getString(svgs);
-            browser.loadHTML(html);
+            else{
+                IAtomContainer molecule = molToMolecule(content);
+                parseMol(DEPICTION_GENERATOR_MOLV3000, molecule, svgs);
+                count++;
+            }
+                String html = getString(svgs, count);
+                browser.loadHTML(html);
         } catch (Exception e) {
-            browser.loadHTML("<html><body>" + e.getClass() + " " + e.getMessage() + "</body></html>");
+            // do nothing
         }
     }
+    private String parseMol(DepictionGenerator dg,IAtomContainer molecule, StringBuilder svgs) throws CDKException {
+        String svg = dg.withAtomColors().depict(molecule).toSvgStr();
+        int start = svg.indexOf("<svg");
+        if (start >= 0) {
+            svg = svg.substring(start);
+        }
+        svgs.append("<div class='molecule'>");
+        svgs.append(svg);
+        svgs.append("</div>");
+        return dg.withAtomColors().depict(molecule).toSvgStr();
+    }
 
-    private static @NotNull String getString(StringBuilder svgs) {
+    private static @NotNull String getString(StringBuilder svgs, int numberOfMolecules) {
         return """
                 <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <style>
-                                html, body {
-                                    width: 100%;
-                                    min-height: 100%;
-                                    margin: 0;
-                                }
-                                body {
-                                    overflow: auto;
-                                }
-                                        .molecules {
-                                             width: 100%;
-                                             min-height: 100%;
-                                             display: flex;
-                                             flex-wrap: wrap;
-                                             align-items: flex-start;
-                                             align-content: flex-start;
-                                             gap: 10px;
-                                         }
-                                         .molecule {
-                                             display: flex;
-                                             justify-content: center;
-                                             align-items: center;
-                                         }
-                                         .molecule svg {
-                                             width: 400px;
-                                             height: 400px;
-                                             border: 1px solid
-                                         }
-                            </style>
-                            <script>
-                                let zoom = 1;
-                                         function updateZoom() {
-                                             document.querySelectorAll(".molecule svg").forEach(svg => {
-                                             svg.style.width = (400 * zoom) + "px";
-                                             svg.style.height = (400 * zoom) + "px";
-                                             });
-                                         }
-                                         function zoomIn() {
-                                             zoom += 0.2;
-                                             updateZoom();
-                                         }
-                                         function zoomOut() {
-                                             if (zoom > 0.2) {
-                                                 zoom -= 0.2;
-                                             }
-                                             updateZoom();
-                                         }
-                                document.addEventListener("keydown", (event)=>{
-                                    if ((event.metaKey || event.ctrlKey) && event.key === "+" ) {
-                                       zoomIn()
-                                    }
-                                    if ((event.metaKey || event.ctrlKey) && event.key === "-" ) {
-                                       zoomOut()
-                                    }
-                                });
-                            </script>
-                        </head>
-                        <body>
-                        <div class="molecules">
+                <html>
+                <head>
+                    <style>
+                    header {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 10px 15px;
+                        border: 1px solid #ccc;
+                    }
+                    header h6 {
+                        font-size: 18px;
+                        margin: 0;
+                        margin-right: auto;
+                    }
+                
+                    header button {
+                        width: 25px;
+                        height: 25px;
+                        border: 1px solid #aaa;
+                        border-radius: 5px;
+                        font-size: 18px;
+                    }
+                        html, body {
+                            width: 100%;
+                            min-height: 100%;
+                            margin: 0;
+                        }
+                        body {
+                            overflow: auto;
+                        }
+                                .molecules {
+                                     width: 100%;
+                                     min-height: 100%;
+                                     display: flex;
+                                     flex-wrap: wrap;
+                                     align-items: flex-start;
+                                     align-content: flex-start;
+                                     gap: 10px;
+                                 }
+                                 .molecule {
+                                     display: flex;
+                                     justify-content: center;
+                                     align-items: center;
+                                 }
+                                 .molecule svg {
+                                     width: 400px;
+                                     height: 400px;
+                                     border: 1px solid
+                                 }
+                    </style>
+                    <script>
+                        let zoom = 1;
+                function updateZoom() {
+                  document.querySelectorAll(".molecule svg").forEach(svg => {
+                    svg.style.width = (400 * zoom) + "px";
+                    svg.style.height = (400 * zoom) + "px";
+                  });
+                };
+                function zoomIn() {
+                  zoom += 0.2;
+                  updateZoom();
+                };
+                function zoomOut() {
+                  if (zoom > 0.2) {
+                    zoom -= 0.2;
+                  };
+                  updateZoom();
+                };
+                document.addEventListener("keydown", (event)=>{
+                  if ((event.metaKey || event.ctrlKey) && event.key === "+" ) {
+                    zoomIn();
+                  };
+                  if ((event.metaKey || event.ctrlKey) && event.key === "-" ) {
+                    zoomOut();
+                  }
+                });
+                document.addEventListener("DOMContentLoaded", () => {
+                       document.getElementById("zoomInBtn").addEventListener("click", zoomIn);
+                       document.getElementById("zoomOutBtn").addEventListener("click", zoomOut);
+                   });
+                
+                    </script>
+                </head>
+                <body>
+                <header>
+                    <h6>Molecules:
+                    """+ numberOfMolecules + """
+                    </h6>
+                    <button id="zoomInBtn">+</button>
+                    <button id="zoomOutBtn">-</button>
+                </header>
+                <div class="molecules">
                 """ + svgs + """
-                                </div>
-                                </body>
-                                </html>
+                </div>
+                </body>
+                </html>
+                
                 """;
     }
 
