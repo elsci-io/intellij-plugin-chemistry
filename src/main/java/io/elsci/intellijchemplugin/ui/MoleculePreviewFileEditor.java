@@ -1,5 +1,8 @@
 package io.elsci.intellijchemplugin.ui;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.Notifications;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorLocation;
 import com.intellij.openapi.fileEditor.FileEditorState;
@@ -21,10 +24,8 @@ import org.openscience.cdk.io.iterator.IteratingSDFReader;
 import org.openscience.cdk.silent.SilentChemObjectBuilder;
 
 import java.beans.PropertyChangeListener;
-import java.nio.charset.StandardCharsets;
 
-import static io.elsci.intellijchemplugin.chem.MoleculeUtil.DEPICTION_GENERATOR_MOLV3000;
-import static io.elsci.intellijchemplugin.chem.MoleculeUtil.molToMolecule;
+import static io.elsci.intellijchemplugin.chem.MoleculeUtil.DEPICTION_GENERATOR_MOL;
 
 public class MoleculePreviewFileEditor implements FileEditor {
     private final VirtualFile file;
@@ -41,34 +42,28 @@ public class MoleculePreviewFileEditor implements FileEditor {
 
     public void updatePreview() {
         try {
-            String content = new String(file.contentsToByteArray(), StandardCharsets.UTF_8);
             StringBuilder svgs = new StringBuilder();
             int count = 0;
-            if (file.getName().toLowerCase().endsWith(".sdf")) {
                 IteratingSDFReader reader = new IteratingSDFReader(file.getInputStream(), SilentChemObjectBuilder.getInstance());
                 while (reader.hasNext() && count < 1000) {
                     IAtomContainer molecule;
                     molecule = reader.next();
-                    parseMol(DEPICTION_GENERATOR_MOLV3000, molecule, svgs);
+                    depictMolecule(DEPICTION_GENERATOR_MOL, molecule, svgs);
                     count++;
                 }
-            } else if (file.toString().contains("V2000")) {
-                IAtomContainer molecule = molToMolecule(content);
-                parseMol(DEPICTION_GENERATOR_MOLV3000, molecule, svgs);
-                count++;
+            String html;
+            if (count > 1) {
+                html = getString(svgs, count+ " molecules");
             }
             else{
-                IAtomContainer molecule = molToMolecule(content);
-                parseMol(DEPICTION_GENERATOR_MOLV3000, molecule, svgs);
-                count++;
+                html = getString(svgs, count+ " molecule");
             }
-                String html = getString(svgs, count);
-                browser.loadHTML(html);
+            browser.loadHTML(html);
         } catch (Exception e) {
-            // do nothing
+            Notifications.Bus.notify(new Notification("Molecule Preview", "Error occurred:", e.getMessage(), NotificationType.ERROR));
         }
     }
-    private String parseMol(DepictionGenerator dg,IAtomContainer molecule, StringBuilder svgs) throws CDKException {
+    private void depictMolecule(DepictionGenerator dg, IAtomContainer molecule, StringBuilder svgs) throws CDKException {
         String svg = dg.withAtomColors().depict(molecule).toSvgStr();
         int start = svg.indexOf("<svg");
         if (start >= 0) {
@@ -77,10 +72,10 @@ public class MoleculePreviewFileEditor implements FileEditor {
         svgs.append("<div class='molecule'>");
         svgs.append(svg);
         svgs.append("</div>");
-        return dg.withAtomColors().depict(molecule).toSvgStr();
+        dg.withAtomColors().depict(molecule).toSvgStr();
     }
 
-    private static @NotNull String getString(StringBuilder svgs, int numberOfMolecules) {
+    private static @NotNull String getString(StringBuilder svgs, String numberOfMolecules) {
         return """
                 <!DOCTYPE html>
                 <html>
@@ -92,11 +87,16 @@ public class MoleculePreviewFileEditor implements FileEditor {
                         gap: 10px;
                         padding: 10px 15px;
                         border: 1px solid #ccc;
+                        position: sticky;
+                        top: 0;
+                        z-index: 100;
+                        background: #E8EDF2;
                     }
                     header h6 {
                         font-size: 18px;
                         margin: 0;
                         margin-right: auto;
+                        font-weight: normal;
                     }
                 
                     header button {
@@ -105,11 +105,13 @@ public class MoleculePreviewFileEditor implements FileEditor {
                         border: 1px solid #aaa;
                         border-radius: 5px;
                         font-size: 18px;
+                        cursor: pointer;
                     }
                         html, body {
                             width: 100%;
                             min-height: 100%;
                             margin: 0;
+                            background: #F2F3F5;
                         }
                         body {
                             overflow: auto;
@@ -131,7 +133,7 @@ public class MoleculePreviewFileEditor implements FileEditor {
                                  .molecule svg {
                                      width: 400px;
                                      height: 400px;
-                                     border: 1px solid
+                                     border: 1px solid #C5CBD3
                                  }
                     </style>
                     <script>
@@ -169,8 +171,8 @@ public class MoleculePreviewFileEditor implements FileEditor {
                 </head>
                 <body>
                 <header>
-                    <h6>Molecules:
-                    """+ numberOfMolecules + """
+                    <h6>
+                """+ numberOfMolecules + """
                     </h6>
                     <button id="zoomInBtn">+</button>
                     <button id="zoomOutBtn">-</button>

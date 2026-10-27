@@ -29,7 +29,7 @@
 
     <fileEditorProvider
             implementation="io.elsci.intellijchemplugin.ui.MoleculeFileEditorProvider"/>
-
+    <notificationGroup id="Molecule Preview" displayType="BALLOON" />
   </extensions>
   <actions>
     <group id="plugin.action.ChemistryToolsGroup" text="Chemistry" popup="true">

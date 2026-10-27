@@ -1,5 +1,8 @@
 package io.elsci.intellijchemplugin.action;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileListener;
 import io.elsci.intellijchemplugin.ui.MoleculePreviewFileEditor;
@@ -18,7 +21,7 @@ public class MoleculeFileListener implements VirtualFileListener {
         try {
             preview.updatePreview();
         } catch (Throwable t) {
-            // do nothing
+            Notifications.Bus.notify(new Notification("Molecule Preview", "Error occurred:", t.getMessage(), NotificationType.ERROR));
         }
     }
 }
